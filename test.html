@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Баня-бочка под ключ — Москва и МО</title>
+  <style>
+    :root{
+      --bg:#0f1511;
+      --card:#121b15;
+      --text:#eef3ee;
+      --muted:rgba(238,243,238,.72);
+      --border:rgba(238,243,238,.12);
+      --accent:#d39a52;
+      --accent2:#7ec7a1;
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --r:18px;
+      --wrap: 1120px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(1200px 600px at 10% 0%, rgba(211,154,82,.16), transparent 55%),
+                  radial-gradient(1000px 600px at 90% 20%, rgba(126,199,161,.12), transparent 50%),
+                  var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit}
+    .wrap{max-width:var(--wrap); margin:0 auto; padding:0 20px}
+    .topbar{
+      position:sticky; top:0; z-index:10;
+      background: rgba(15,21,17,.72);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .row{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 0}
+    .brand{display:flex; gap:12px; align-items:center; text-decoration:none}
+    .logo{
+      width:38px;height:38px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(211,154,82,.95), rgba(126,199,161,.85));
+      box-shadow: var(--shadow);
+    }
+    .brand b{display:block; line-height:1.1}
+    .brand small{display:block; color:var(--muted); font-size:12px; margin-top:2px}
+    .nav{display:flex; gap:14px; color:var(--muted); font-size:13px}
+    .nav a{text-decoration:none}
+    .cta{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .pill{
+      padding:9px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      text-decoration:none;
+      color:var(--text);
+      background: rgba(255,255,255,.03);
+      font-size:13px;
+    }
+    .btn{
+      border:0; cursor:pointer;
+      padding:11px 14px;
+      border-radius:14px;
+      background: linear-gradient(135deg, var(--accent), rgba(211,154,82,.75));
+      color:#17120a;
+      font-weight:700;
+      box-shadow: 0 12px 30px rgba(211,154,82,.18);
+    }
+    .btn.secondary{
+      background: transparent;
+      color:var(--text);
+      border:1px solid rgba(211,154,82,.35);
+      box-shadow:none;
+    }
+    /* ===== Hover-анимации (кнопки/пилюли/варианты ответа) ===== */
+    .btn, .pill, label.opt{
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, filter .15s ease, background-color .15s ease;
+      will-change: transform;
+    }
+    
+    .btn:hover{
+      transform: translateY(-2px);
+      filter: brightness(1.03);
+      box-shadow: 0 16px 36px rgba(211,154,82,.22);
+    }
+    
+    .btn:active{
+      transform: translateY(0px) scale(.99);
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+    }
+    
+    /* вторичная кнопка — чуть более деликатно */
+    .btn.secondary:hover{
+      border-color: rgba(211,154,82,.65);
+      background: rgba(211,154,82,.08);
+      box-shadow: 0 14px 30px rgba(211,154,82,.10);
+    }
+    
+    /* Телефон/пилюли */
+    .pill:hover{
+      transform: translateY(-1px);
+      border-color: rgba(238,243,238,.22);
+      background: rgba(255,255,255,.05);
+    }
+    
+    /* Варианты в квизе */
+    label.opt:hover{
+      transform: translateY(-1px);
+      border-color: rgba(211,154,82,.45);
+      box-shadow: 0 14px 28px rgba(0,0,0,.25);
+    }
+    
+    /* Плавный outline при фокусе (доступность) */
+    .btn:focus-visible, .pill:focus-visible, label.opt:focus-within{
+      outline: 2px solid rgba(126,199,161,.55);
+      outline-offset: 2px;
+    }
+    
+    /* Уважение к тем, кто отключает анимации */
+    @media (prefers-reduced-motion: reduce){
+      .btn, .pill, label.opt{ transition:none; }
+      .btn:hover, .pill:hover, label.opt:hover{ transform:none; }
+    }
+    /* ===== Hover для меню ===== */
+    .nav a{
+      position: relative;
+      padding: 8px 6px;
+      border-radius: 10px;
+      transition: color .15s ease, background-color .15s ease, transform .15s ease;
+    }
+    
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:10px;
+      right:10px;
+      bottom:4px;
+      height:2px;
+      border-radius:999px;
+      background: rgba(211,154,82,.85);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .18s ease;
+      opacity:.9;
+    }
+    
+    .nav a:hover{
+      color: var(--text);
+      background: rgba(255,255,255,.04);
+      transform: translateY(-1px);
+    }
+    
+    .nav a:hover::after{
+      transform: scaleX(1);
+    }
+    
+    /* фокус с клавиатуры */
+    .nav a:focus-visible{
+      outline: 2px solid rgba(126,199,161,.55);
+      outline-offset: 2px;
+    }
+    
+    /* если у пользователя отключены анимации */
+    @media (prefers-reduced-motion: reduce){
+      .nav a, .nav a::after{ transition:none; }
+      .nav a:hover{ transform:none; }
+    }
+    
+
+    /* HERO */
+    .hero{padding:30px 0 18px}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    .card{
+      background: rgba(18,27,21,.86);
+      border:1px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+    }
+    .heroMain{padding:22px}
+    .kicker{display:flex; gap:10px; align-items:center; color:var(--muted); font-size:12px}
+    .dot{width:8px; height:8px; border-radius:99px; background:var(--accent)}
+    h1{margin:10px 0 10px; font-size:40px; letter-spacing:-.02em; line-height:1.12}
+    .lead{margin:0; color:var(--muted); font-size:15px; line-height:1.55; max-width:62ch}
+    .bullets{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:14px;
+    }
+    .mini{
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255,255,255,.03);
+    }
+    .mini b{display:block; font-size:14px}
+    .mini span{display:block; color:var(--muted); font-size:12px; margin-top:4px; line-height:1.35}
+
+    .heroActions{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .note{margin-top:10px; color:rgba(238,243,238,.55); font-size:12px; line-height:1.45}
+
+    .heroSide{padding:16px; overflow:hidden; position:relative}
+    .heroPhoto{
+      height:260px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.55)),
+        /* ЗАМЕНИ НА СВОЕ ФОТО ↓ */
+        url('ChatGPT Image 29 янв. 2026 г., 12_06_12.png');
+      background-size: cover;
+      background-position:center;
+    }
+    .sideGrid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    .badge{
+      display:flex; justify-content:space-between; gap:10px;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      font-size:13px;
+    }
+    .badge span{color:var(--muted); font-size:12px}
+
+    /* QUIZ */
+    .section{padding:18px 0 30px}
+    .section h2{margin:0; font-size:26px; letter-spacing:-.01em}
+    .section p{margin:8px 0 0; color:var(--muted); line-height:1.55}
+    .quizWrap{margin-top:14px}
+    .quizCard{padding:16px}
+    .quizTop{
+      display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .giftBox{
+      padding:10px 12px;
+      border-radius:16px;
+      border:1px solid rgba(211,154,82,.35);
+      background: rgba(211,154,82,.08);
+      max-width:520px;
+    }
+    .giftBox b{display:block; font-size:13px}
+    .giftBox span{display:block; color:var(--muted); font-size:12px; margin-top:3px; line-height:1.35}
+    .progress{
+      height:10px; border-radius:999px; overflow:hidden;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      margin:10px 0 14px;
+    }
+    .bar{height:100%; width:0%; background: linear-gradient(90deg, var(--accent2), var(--accent)); transition:width .25s ease}
+    .qTitle{margin:0 0 10px; font-size:18px}
+    .options{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    label.opt{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background: rgba(255,255,255,.03);
+      cursor:pointer;
+    }
+    .opt input{margin-top:2px}
+    .opt b{display:block; font-size:14px}
+    .opt span{display:block; color:var(--muted); font-size:12px; margin-top:3px; line-height:1.35}
+
+    .quizActions{
+      display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
+      margin-top:14px;
+      padding-top:12px;
+      border-top:1px solid var(--border);
+    }
+    .mutedSmall{color:var(--muted); font-size:12px}
+
+    .finalGrid{
+      display:grid; grid-template-columns: 1fr 1fr; gap:10px;
+      margin-top:10px;
+    }
+    .field, select{
+      width:100%;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color:var(--text);
+      outline:none;
+    }
+    .success{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(126,199,161,.35);
+      background: rgba(126,199,161,.08);
+    }
+
+    footer{
+      border-top:1px solid var(--border);
+      padding:18px 0 30px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .giftInline{
+      width:100%;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid rgba(211,154,82,.35);
+      background: rgba(211,154,82,.08);
+    }
+    .giftInline b{
+      display:inline;
+      font-size:13px;
+    }
+    .giftInline span{
+      display:inline;
+      color:var(--muted);
+      font-size:12.5px;
+      line-height:1.45;
+    }
+
+
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+      h1{font-size:34px}
+      .bullets{grid-template-columns:1fr}
+      .options{grid-template-columns:1fr}
+      .finalGrid{grid-template-columns:1fr}
+      .nav{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="row">
+      <a class="brand" href="#top">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <b>Бани-бочки</b>
+          <small>Москва и МО • производство • доставка+установка</small>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Навигация">
+        <a href="#quiz">Квиз</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+
+      <div class="cta">
+        <a class="pill" href="tel:+79990000000">📞 +7 (999) 000-00-00</a>
+        <button class="btn" type="button" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">
+          Рассчитать стоимость (квиз)
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="grid">
+        <div class="card heroMain">
+          <div class="kicker"><span class="dot" aria-hidden="true"></span> Под ключ • по договору • прозрачная комплектация • гарантия</div>
+          <h1>Баня-бочка под ключ в Москве и МО — <span style="color:var(--accent)">изготовим, привезём и установим</span> без стройки и грязи</h1>
+          <p class="lead">
+            Подберём модель под ваш участок и бюджет, сделаем <b>прозрачную смету по комплектации</b>
+            и закрепим <b>бонус за прохождение квиза</b>.
+          </p>
+
+          <div class="bullets">
+            <div class="mini"><b>Прозрачная смета</b><span>Понятно, что входит в стоимость и сколько стоят опции — без “сюрпризов”.</span></div>
+            <div class="mini"><b>Доставка + установка</b><span>Не нужно искать бригаду: привезём и аккуратно установим.</span></div>
+            <div class="mini"><b>Надёжная сборка</b><span>Делаем так, чтобы баня служила долго при правильной эксплуатации.</span></div>
+            <div class="mini"><b>Договор и гарантия</b><span>Фиксируем условия, сроки и комплектацию до оплаты.</span></div>
+          </div>
+
+          <div class="heroActions">
+            <button class="btn" type="button" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">
+              Рассчитать стоимость за 1 минуту
+            </button>
+            <a class="btn secondary" href="#contacts">Консультация: что выбрать под участок</a>
+          </div>
+        </div>
+
+        <aside class="card heroSide">
+          <div class="heroPhoto" aria-label="Фото бани-бочки"></div>
+
+          <div class="sideGrid">
+            <div class="badge"><b>Для дачи/дома</b><span>семья 2–4 человека</span></div>
+            <div class="badge"><b>Комплектация под бюджет</b><span>база / оптимум / максимум</span></div>
+            <div class="badge"><b>Бонус за квиз</b><span>закрепим в смете</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="quiz">
+    <div class="wrap">
+      <h2>Рассчитаем стоимость и подготовим КП под ваш участок</h2>
+      <p>Ответьте на 4 вопроса — и мы соберём комплектацию под ваш бюджет. Бонус закрепим в смете.</p>
+
+      <div class="quizWrap">
+        <div class="card quizCard">
+          <div class="quizTop" style="flex-direction:column; align-items:flex-start;">
+            <div class="mutedSmall">Прогресс: <span id="stepLabel">Шаг 1 из 4</span></div>
+          
+            <div class="giftInline">
+              <b>🎁 Бонус за квиз:</b>
+              <span>на последнем шаге выберите подарок — скидка на доставку/монтаж или аксессуар. Закрепим бонус в смете.</span>
+            </div>
+          </div>
+
+
+          <div class="progress"><div class="bar" id="bar"></div></div>
+
+          <div id="step"></div>
+
+          <form id="final" style="display:none">
+            <p class="qTitle">Куда отправить расчёт и закрепить бонус?</p>
+
+            <div class="finalGrid">
+              <input class="field" name="name" placeholder="Имя" autocomplete="name" />
+              <input class="field" name="phone" placeholder="Телефон*" required autocomplete="tel" />
+            </div>
+
+            <div style="margin-top:10px">
+              <select name="bonus" required>
+                <option value="" disabled selected>Выберите бонус за квиз*</option>
+                <option value="Скидка на доставку/монтаж">Скидка на доставку/монтаж</option>
+                <option value="Аксессуар к бане (по наличию)">Аксессуар к бане (по наличию)</option>
+                <option value="Подбор комплектации под бюджет">Подбор комплектации под бюджет</option>
+              </select>
+            </div>
+
+            <div class="quizActions">
+              <div class="mutedSmall">Обычно перезваниваем в течение 10 минут в рабочее время (10:00–20:00 МСК).</div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap">
+                <button class="btn secondary" type="button" onclick="prev()">Назад</button>
+                <button class="btn" type="submit">Получить расчёт + бонус</button>
+              </div>
+            </div>
+
+            <div class="note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</div>
+          </form>
+
+          <div id="done" class="success" style="display:none">
+            <b>Заявка принята ✅</b>
+            <div class="mutedSmall" style="margin-top:6px">Сейчас перенаправим на страницу “Спасибо”.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="contacts">
+    <div class="wrap">
+      <div class="card" style="padding:16px">
+        <h2 style="margin:0 0 6px">Контакты</h2>
+        <p style="margin:0;color:var(--muted)">Телефон/WhatsApp/Telegram для связи и уточнений.</p>
+        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap">
+          <a class="pill" href="tel:+79990000000">📞 +7 (999) 000-00-00</a>
+          <a class="pill" href="https://t.me/yourtelegram" target="_blank" rel="noreferrer">Telegram</a>
+          <a class="pill" href="https://wa.me/79990000000" target="_blank" rel="noreferrer">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="y"></span> Бани-бочки • Москва и МО</div>
+    <div style="margin-top:6px">Информация на сайте не является публичной офертой.</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+
+  const steps = [
+    {
+      key: "size",
+      q: "1) Какой размер/планировка нужна?",
+      type: "radio",
+      options: [
+        {v:"3,5–4 м (парная)", d:"Компактно, быстро прогревается"},
+        {v:"4,5–5 м (парная + предбанник)", d:"Самый частый выбор для семьи"},
+        {v:"6 м (с комнатой отдыха)", d:"Максимум комфорта"},
+        {v:"Не знаю — подберите по участку", d:"Поможем выбрать без переплат"}
+      ]
+    },
+    {
+      key: "format",
+      q: "2) Какой формат нужен?",
+      type: "radio",
+      options: [
+        {v:"Под ключ: доставка + установка", d:"Оптимально: привезли и поставили"},
+        {v:"Только изготовление (самовывоз/свой монтаж)", d:"Если есть своя бригада"},
+        {v:"Нужна доставка (монтаж позже)", d:"Можно договориться по этапам"},
+        {v:"Пока сравниваю варианты/цены", d:"Сделаем расчёт и варианты комплектаций"}
+      ]
+    },
+    {
+      key: "package",
+      q: "3) Материал/уровень комплектации:",
+      type: "radio",
+      options: [
+        {v:"Базовая (без переплат)", d:"Минимум необходимого"},
+        {v:"Оптимальная (самый частый выбор)", d:"Баланс цены и комфорта"},
+        {v:"Максимальная (всё включено)", d:"Когда важен максимальный комфорт"},
+        {v:"Нужна консультация", d:"Сначала разберём задачу"}
+      ]
+    },
+    {
+      key: "timing",
+      q: "4) Когда планируете установку?",
+      type: "radio",
+      options: [
+        {v:"В ближайшие 2 недели", d:"Срочно — уточним окна производства/доставки"},
+        {v:"2–4 недели", d:"Планово — обычно самый комфортный срок"},
+        {v:"1–2 месяца", d:"Можно спокойно выбрать комплектацию"},
+        {v:"Просто узнать стоимость", d:"Дадим ориентир и варианты"}
+      ]
+    }
+  ];
+
+  let idx = 0;
+  const answers = {};
+  const stepEl = document.getElementById("step");
+  const finalEl = document.getElementById("final");
+  const barEl = document.getElementById("bar");
+  const stepLabel = document.getElementById("stepLabel");
+
+  function render(){
+    const s = steps[idx];
+    const pct = Math.round(((idx) / steps.length) * 100);
+    barEl.style.width = pct + "%";
+    stepLabel.textContent = `Шаг ${idx+1} из ${steps.length}`;
+
+    let html = `<p class="qTitle">${s.q}</p><div class="options">`;
+    html += s.options.map((o,i)=>`
+      <label class="opt">
+        <input type="radio" name="${s.key}" value="${o.v}" ${answers[s.key]===o.v ? "checked" : ""} />
+        <div>
+          <b>${o.v}</b>
+          <span>${o.d}</span>
+        </div>
+      </label>
+    `).join("");
+    html += `</div>`;
+
+    html += `
+      <div class="quizActions">
+        <div class="mutedSmall">Ответьте — и мы соберём комплектацию под ваш бюджет.</div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <button class="btn secondary" type="button" onclick="prev()" ${idx===0 ? "disabled" : ""}>Назад</button>
+          <button class="btn" type="button" onclick="next()">Далее</button>
+        </div>
+      </div>
+    `;
+
+    stepEl.innerHTML = html;
+
+    // кликабельность карточки
+    stepEl.querySelectorAll('label.opt').forEach(l=>{
+      l.addEventListener("click", ()=>{
+        const input = l.querySelector("input");
+        input.checked = true;
+        answers[s.key] = input.value;
+      });
+    });
+  }
+
+  function next(){
+    const s = steps[idx];
+    const picked = stepEl.querySelector(`input[name="${s.key}"]:checked`);
+    if(!picked){ alert("Выберите вариант ответа"); return; }
+    answers[s.key] = picked.value;
+
+    if(idx < steps.length-1){
+      idx++;
+      render();
+      return;
+    }
+    // финал
+    barEl.style.width = "100%";
+    stepEl.style.display = "none";
+    finalEl.style.display = "block";
+    stepLabel.textContent = "Финиш";
+  }
+
+  function prev(){
+    if(finalEl.style.display === "block"){
+      finalEl.style.display = "none";
+      stepEl.style.display = "block";
+      idx = steps.length-1;
+      render();
+      return;
+    }
+    if(idx>0){ idx--; render(); }
+  }
+
+  document.getElementById("final").addEventListener("submit", (e)=>{
+    e.preventDefault();
+    // в реальном проекте тут отправка в CRM/почту/телеграм
+    document.getElementById("done").style.display = "block";
+    setTimeout(()=>{ window.location.href="thanks.html"; }, 600);
+  });
+
+  render();
+</script>
+</body>
+</html>
